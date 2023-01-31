@@ -1,0 +1,11 @@
+login       done/
+
+20-30/01
+add barang
+add qty 
+add riwayat
+
+31/01
+set github
+no document otomatis
+export excel  tapi link nya belom

@@ -83,14 +83,6 @@ class Barang_model extends CI_Model {
         return $query->result();
     }
 
-    function nom()
-	{
-		$this->db->select('ket');
-    	$this->db->from('history');
-		$this->db->order_by('ket DESC');
-		$query = $this->db->get();
-		return $query->result_array();
-	}
     public function tampil(){    
         return $this->db->get('history')->result();
     }

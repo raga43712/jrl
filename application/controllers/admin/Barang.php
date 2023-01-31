@@ -47,17 +47,16 @@ class Barang extends CI_Controller{
 		if ($valid->run()) {
 			$i = $this->input;
 			$data = array(
-				'kode_brg'			=>	$i->post('kode_brg'),
-				'grid_pro'			=>	$i->post('grid_pro'),
-				'width_pro'			=>	$i->post('width_pro'),
-				'length_pro'		=>	$i->post('length_pro'),
-				'qty_pro'			=>	$i->post('qty_pro'),
-				'desc_pro'			=>  $i->post('desc_pro'),
-				'kode'				=>	$i->post('kode_brg') . $i->post('grid_pro') 
-										. $i->post('width_pro') . $i->post('length_pro')
+				'kode_brg'		=>	$i->post('kode_brg'),
+				'grid_pro'		=>	$i->post('grid_pro'),
+				'width_pro'		=>	$i->post('width_pro'),
+				'length_pro'	=>	$i->post('length_pro'),
+				'qty_pro'		=>	$i->post('qty_pro'),
+				'desc_pro'		=>  $i->post('desc_pro'),
+				'kode'			=>	$i->post('kode_brg') . $i->post('grid_pro') . $i->post('width_pro') . $i->post('length_pro')
 			);
 
-			//tidak usah pakai array dis sesuaikan lagi
+			//fix
 			if(empty($i->post('qty_pro'))){
                 $data['qty_pro'] = 0;
             }
@@ -79,17 +78,6 @@ class Barang extends CI_Controller{
 		//$result = $this->barang_model->nom();
 		$tampil 	= $this->barang_model->tampil();
 		$kode 	= $this->barang_model->kode();
-
-		// $ben	= "001";
-		// 	$bes	= date('Ymd') . $ben;
-		// 	if (empty($result[0]['ket'])) {
-		// 		$ket = $bes;
-		// 	} else if (substr($result[0]['ket'], 0, 8) == (date('Ymd'))) {
-		// 		$ket = $result[0]['ket'] + 1;
-		// 	} else if (substr($result[0]['ket'], 0, 8) != (date('Ymd'))) {
-		// 		$ket = $bes;
-		// 	}
-		//tambah model
 
 		$data = array(
 			'title'		=> 'Data Barang Masuk',
@@ -117,16 +105,15 @@ class Barang extends CI_Controller{
 		if ($valid->run()) {
 			$i = $this->input;
 			$data = array(
-				'tgl_pro'			=>	date('Y-m-d'),
-				'kode_brg'			=>	$i->post('kode_brg'),
-				'grid_pro'			=>	$i->post('grid_pro'),
-				'width_pro'			=>	$i->post('width_pro'),
-				'length_pro'		=>	$i->post('length_pro'),
-				'qty_pro'			=>	$i->post('qty_pro'),
-				'desc_pro'			=>  $i->post('desc_pro'),
-				'ket'				=>  $i->post('ket'),
-				'kode'				=>	$i->post('kode_brg') . $i->post('grid_pro') 
-										. $i->post('width_pro') . $i->post('length_pro')
+				'tgl_pro'		=>	date('Y-m-d'),
+				'kode_brg'		=>	$i->post('kode_brg'),
+				'grid_pro'		=>	$i->post('grid_pro'),
+				'width_pro'		=>	$i->post('width_pro'),
+				'length_pro'	=>	$i->post('length_pro'),
+				'qty_pro'		=>	$i->post('qty_pro'),
+				'desc_pro'		=>  $i->post('desc_pro'),
+				'ket'			=>  $i->post('ket'),
+				'kode'			=>	$i->post('kode_brg') . $i->post('grid_pro') . $i->post('width_pro') . $i->post('length_pro')
 			);
 			$this->barang_model->insert_his($data);
 			$this->session->set_flashdata('sukses', 'Data pemasukkan berhasil ditambahkan');

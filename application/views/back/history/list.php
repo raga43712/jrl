@@ -63,13 +63,13 @@
                                 <tr>
                                     <th class="text-center">No.</th>
                                     <th width="15%">Tanggal</th>
-                                    <th width="25%">kode</th>
+                                    <th class="text-center">KODE</th>
                                     <th width="25%">Nama Barang</th>
                                     <th class="text-center">Grid</th>
                                     <th class="text-center">Tinggi</th>
                                     <th class="text-center">Panjang</th>
                                     <th class="text-center">Qty</th>
-                                    <th class="text-center">Keterangan</th>
+                                    <th class="text-center">Ket</th>
                                     <th width="50%" class="text-center">No Doc</th>
                                     <!-- <th class="text-center">Status</th> -->
                                 </tr>
@@ -104,9 +104,6 @@
                 </div> <!-- akhir div card body -->
             </div> <!-- akhir div card -->
 
-
-
-            <!-- modal tambah user-->
             <!-- modal tambah user-->
             <!-- modal -->
             <div class="modal fade" id="tambahMasukan" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -167,8 +164,8 @@
                 </div> <!-- modal-dialog -->
             </div> <!-- modal-fade -->
 
-            <!-- modal tambah user-->
-            <!-- modal tambah user-->
+
+            <!-- modal tambah keluaran-->
             <!-- modal -->
             <div class="modal fade" id="tambahKeluaran" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
@@ -207,7 +204,6 @@
                     </div> <!-- modal-content -->
                 </div> <!-- modal-dialog -->
             </div> <!-- modal-fade -->
-
 
 
 
