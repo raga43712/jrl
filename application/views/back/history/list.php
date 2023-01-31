@@ -66,7 +66,7 @@
                                     <th width="25%">kode</th>
                                     <th width="25%">Nama Barang</th>
                                     <th class="text-center">Grid</th>
-                                    <th class="text-center">Lebar</th>
+                                    <th class="text-center">Tinggi</th>
                                     <th class="text-center">Panjang</th>
                                     <th class="text-center">Qty</th>
                                     <th class="text-center">Keterangan</th>
@@ -137,7 +137,7 @@
                                     <input type="number" class="form-control" name="grid_pro" id="grid_pro" required="" placeholder="Contoh : 320">
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-form-label">Tinggi / Lebar</label>
+                                    <label class="col-form-label">Tinggi</label>
                                     <input type="number" class="form-control" name="width_pro" id="width_pro" placeholder="Contoh : 1370" required="">
                                 </div>
                                 <div class="form-group">
@@ -150,7 +150,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label class="col-form-label" for="Keterangan">No Doc</label>
-                                    <input type="number" class="form-control" name="ket" id="ket" value="<?= $ket; ?>" readonly="">
+                                    <input type="text" class="form-control" name="ket" id="ket" value="<?= $kode; ?>">
                                 </div>
                                 <div class="form-group">
                                     <label class="col-form-label" for="keterangan">Keterangan</label>

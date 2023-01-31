@@ -76,17 +76,19 @@ class Barang extends CI_Controller{
 		$site 	= $this->konfigurasi_model->listing();
 		$his 	= $this->barang_model->hist();
 		$brg 	= $this->barang_model->brga();
-		$result = $this->barang_model->nom();
+		//$result = $this->barang_model->nom();
+		$tampil 	= $this->barang_model->tampil();
+		$kode 	= $this->barang_model->kode();
 
-		$ben	= "001";
-			$bes	= date('Ymd') . $ben;
-			if (empty($result[0]['ket'])) {
-				$ket = $bes;
-			} else if (substr($result[0]['ket'], 0, 8) == (date('Ymd'))) {
-				$ket = $result[0]['ket'] + 1;
-			} else if (substr($result[0]['ket'], 0, 8) != (date('Ymd'))) {
-				$ket = $bes;
-			}
+		// $ben	= "001";
+		// 	$bes	= date('Ymd') . $ben;
+		// 	if (empty($result[0]['ket'])) {
+		// 		$ket = $bes;
+		// 	} else if (substr($result[0]['ket'], 0, 8) == (date('Ymd'))) {
+		// 		$ket = $result[0]['ket'] + 1;
+		// 	} else if (substr($result[0]['ket'], 0, 8) != (date('Ymd'))) {
+		// 		$ket = $bes;
+		// 	}
 		//tambah model
 
 		$data = array(
@@ -95,6 +97,8 @@ class Barang extends CI_Controller{
 			'his'		=> $his,
 			'brg'		=> $brg,
 			'ket'		=> $ket,
+			'kode'		=> $kode,
+			'tampil'	=> $tampil,
 			//model list
 			'isi'		=> 'back/history/list' 
 		);

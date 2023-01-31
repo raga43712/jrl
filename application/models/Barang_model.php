@@ -91,6 +91,27 @@ class Barang_model extends CI_Model {
 		$query = $this->db->get();
 		return $query->result_array();
 	}
+    public function tampil(){    
+        return $this->db->get('history')->result();
+    }
+    public function kode(){
+        $this->db->select('RIGHT(history.ket,2) as ket', FALSE);
+        $this->db->order_by('ket','DESC');    
+        $this->db->limit(1);    
+        $query = $this->db->get('history');  //cek dulu apakah ada sudah ada kode di tabel.    
+        if($query->num_rows() <> 0){      
+             //cek kode jika telah tersedia    
+             $data = $query->row();      
+             $kode = intval($data->ket) + 1; 
+        }
+        else{      
+             $kode = 1;  //cek jika kode belum terdapat pada table
+        }
+            $tgl=date('my'); 
+            $batas = str_pad($kode, 4, "0", STR_PAD_LEFT);    
+            $kodetampil = "PR"."-".$tgl."-".$batas;  //format kode
+            return $kodetampil;  
+       }
     public function tambah($data){
         $id_brg = $this-input-post('id_brg');
         $grid_pro = $this-input-post('grid_pro');
@@ -109,7 +130,6 @@ class Barang_model extends CI_Model {
         $this->db->insert('history', $data);
         return $this->db->insert_id();
     }//NON AKTIF
-
     public function insert_product($data) {
         $kode_barang = $this->input->post('kode_barang');
         $grid_barang = $this->input->post('grid_barang');
@@ -119,7 +139,6 @@ class Barang_model extends CI_Model {
         $this->db->insert('produk', $data);
         return $this->db->insert_id();
     }//NON AKTIF
-
     public function add_quantity($id, $qty_pro) {
         $this->db->set('qty_pro', 'qty_pro+'.$qty_pro, FALSE);
         $this->db->where('id', $id);
@@ -139,18 +158,4 @@ class Barang_model extends CI_Model {
             return false;
         }
     }//NON AKTIF
-    
-
-    // function laporan_keluar(){
-    //     $this->db->select('data_kas.*, pokja.*');
-    //     $this->db->order_by('pokja.id_pokja ASC');
-    //     $this->db->where('jenis', 'keluar');
-    //     $this->db->where('id_periode', $this->session->userdata('active_periode'));
-
-    //     $this->db->join('pokja', 'data_kas.id_pokja = pokja.id_pokja', 'LEFT');
-    //     $this->db->from('data_kas');
-    //     $this->db->group_by('data_kas.id_pokja');
-    //     $query = $this->db->get();
-    //     return $query->result();
-    // }
 }
