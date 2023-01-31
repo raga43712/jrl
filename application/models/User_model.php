@@ -1,0 +1,110 @@
+<?php
+defined('BASEPATH') or exit('No direct script access allowed');
+
+class User_model extends CI_Model
+{
+
+	private $_table = "users";
+
+	// Load database
+	public function __construct()
+	{
+		parent::__construct();
+		$this->load->database();
+	}
+
+	//Listing
+	public function listing()
+	{
+		$this->db->select('*');
+		$this->db->from($this->_table);
+		$this->db->join('m_gcm', 'm_gcm.CODE = users.akses_level');
+		$this->db->where('m_gcm.PARAMETER', 'GRP_USR');
+		$this->db->order_by('id_user', 'DESC');
+		$query = $this->db->get();
+		return $query->result();
+	}
+
+	// detail peruser
+	public function detail($id_user)
+	{
+		$query = $this->db->get_where('users', array('id_user'  => $id_user));
+		return $query->row();
+	}
+
+	public function get($id_user)
+	{
+		$this->db->where('id_user', $id_user);
+		$result = $this->db->get('users')->row();
+		return $result;
+	}
+
+	// Tambah
+	public function tambah($data)
+	{
+		$this->db->insert('users', $data);
+	}
+
+	// Edit 
+	public function edit($data, $id_user)
+	{
+		$this->db->where('id_user', $id_user);
+		$this->db->update('users', $data);
+	}
+
+	// Delete
+	public function delete($data)
+	{
+		$this->db->where('id_user', $data['id_user']);
+		$this->db->delete('users', $data);
+	}
+
+	//update datails
+	public function updateprofil($id)
+	{
+		$i = $this->input;
+
+		if (isset($id)) {
+			$data = array(
+				'id_user'	=> $i->post('id_user'),
+				'nama'		=> $i->post('nama'),
+				'email'		=> $i->post('email'),
+			);
+			$this->session->set_flashdata('sukses', 'Anda berhasil mengupdate profil');
+			$this->session->set_userdata('nama', $i->post('nama'));
+		}
+		return $this->db->update($this->_table, $data, array('id_user' => $id));
+	}
+
+	//update password
+	public function updatepassword($id)
+	{
+		$post = $this->input->post();
+		if ($post["password_lama"] == $post["data_password_lama"]) {
+			//cs..,fd
+			if ($post["password_verif"] == $post["password_baru"]) {
+				$data = array(
+					'password' => $post["password_baru"]
+				);
+			} else { // dan jika tidak berisi inputan
+				$this->session->set_flashdata('maaf', 'Konfirmasi password baru anda tidak sama. Silakan periksa kembali password baru dan konfirmasi anda.');
+				redirect(site_url('profile'));
+			}
+		} //if untuk ngecek password lama
+		else {
+			$this->session->set_flashdata('maaf', 'Anda salah menginput password lama.');
+			redirect(site_url('profile'));
+		}
+		return $this->db->update($this->_table, $data, array('id_user' => $id));
+	}
+
+	public function menugcm($param)
+	{
+		$this->db->select('*');
+		$this->db->from('m_gcm');
+		$this->db->where('PARAMETER', $param);
+		$this->db->where('FLAG_ACTIVE', 'Y');
+		$query = $this->db->get();
+		return $query->result();
+	}
+}
