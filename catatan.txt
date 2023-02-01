@@ -8,4 +8,11 @@ add riwayat
 31/01
 set github
 no document otomatis
-export excel  tapi link nya belom
+export excel  tapi link nya belom -------
+
+fix history tabel
+menambahkan status di tabel history
+menampilkan qty dengan kondisi
+    qty status Positive as total_masuk
+    qty status Negative as total_keluar
+    qty(positive) - qty(negative) as total_akhir

@@ -78,15 +78,16 @@ class Barang extends CI_Controller{
 		//$result = $this->barang_model->nom();
 		$tampil 	= $this->barang_model->tampil();
 		$kode 	= $this->barang_model->kode();
+		$qt		= $this->barang_model->get_total_qty();
 
 		$data = array(
 			'title'		=> 'Data Barang Masuk',
 			'namasite'	=> $site['namaweb'],
 			'his'		=> $his,
 			'brg'		=> $brg,
-			'ket'		=> $ket,
 			'kode'		=> $kode,
 			'tampil'	=> $tampil,
+			'qt'		=> $qt,
 			//model list
 			'isi'		=> 'back/history/list' 
 		);
@@ -113,6 +114,7 @@ class Barang extends CI_Controller{
 				'qty_pro'		=>	$i->post('qty_pro'),
 				'desc_pro'		=>  $i->post('desc_pro'),
 				'ket'			=>  $i->post('ket'),
+				'status'		=>	'P',
 				'kode'			=>	$i->post('kode_brg') . $i->post('grid_pro') . $i->post('width_pro') . $i->post('length_pro')
 			);
 			$this->barang_model->insert_his($data);

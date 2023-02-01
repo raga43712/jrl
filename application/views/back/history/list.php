@@ -49,7 +49,7 @@
                     <div class="d-flex justify-content-between lh-condensed">
                         <div class="d-flex">
                             <p><a href="<?php echo site_url('admin') ?>" class="btn btn-success mr-2" data-toggle="modal" data-target="#tambahMasukan">
-                                    <i class="fa fa-plus"></i> Riwayat Pemasukan & Pengeluaran Barang</a></p>
+                                <i class="fa fa-plus"></i> Pemasukan Barang</a></p>
                         </div>
                         <!-- <div>
                             <p><a href="#!" onclick="window.print()" class="btn btn-secondary">
@@ -85,7 +85,7 @@
                                         <td><?php echo $data->grid_pro ?></td>
                                         <td><?php echo $data->width_pro ?></td>
                                         <td><?php echo $data->length_pro ?></td>
-                                        <td><?php echo $data->qty_pro ?></td>
+                                        <td><?php echo $data->total_akhir ?></td>
                                         <td><?php echo $data->desc_pro ?></td>
                                         <td><?php echo $data->ket ?></td>
                                         <!-- <td class="text-center">

@@ -31,6 +31,14 @@ class Barang_model extends CI_Model {
         $this->db->set('ket', 'T');
         $this->db->insert('history', $data);
     }
+    public function get_total_qty()
+    {
+        $this->db->select('id, SUM(qty_pro) as total_qty');
+        $this->db->group_by('id');
+        $query = $this->db->get('history');
+
+        return $query->result();
+    }
     function all2(){
         $this->db->from('tbbarang');
         $this->db->where('desc_pro', 'masuk');
@@ -57,14 +65,35 @@ class Barang_model extends CI_Model {
         return $query->result();
     }
     function hist(){
-        $this->db->select('history.*, tbbrg.*');
+    //     $this->db->select('history.*, tbbrg.*, 
+    //     SUM(CASE WHEN history.status = "P" THEN history.qty_pro ELSE 0 END) as total_masuk,
+    //     SUM(CASE WHEN history.status = "N" THEN history.qty_pro ELSE 0 END) as total_keluar,
+    //     SUM(CASE WHEN history.status = "P" THEN history.qty_pro ELSE 0 END) - 
+    //     SUM(CASE WHEN history.status = "T" THEN history.qty_pro ELSE 0 END) as total_sisa
+    // ');
+    $this->db->select('history.*, tbbrg.*, 
+            SUM(IF(history.status = "P", history.qty_pro, 0)) as total_pemasukan, 
+            SUM(IF(history.status = "N", history.qty_pro, 0)) as total_pengeluaran, 
+            (SUM(IF(history.status = "P", history.qty_pro, 0)) - 
+            SUM(IF(history.status = "N", history.qty_pro, 0))) as total_akhir');
         $this->db->from('history');
         //$this->db->join('tbstatus', 'history.id_status = tbstatus.id_status');
         $this->db->join('tbbrg', 'history.kode_brg = tbbrg.kode_brg');
+        $this->db->group_by('history.kode');
         $this->db->order_by('id ASC');
         $query = $this->db->get();
         return $query->result();
     }
+    function hist2(){
+        $this->db->select('history.*, tbbrg.* ,');
+        $this->db->from('history');
+        //$this->db->join('tbstatus', 'history.id_status = tbstatus.id_status');
+        $this->db->join('tbbrg', 'history.kode_brg = tbbrg.kode_brg');
+        //$this->db->group_by('history.kode');
+        $this->db->order_by('id ASC');
+        $query = $this->db->get();
+        return $query->result();
+    } //Untuk Menampikan semua riwayat
     function brg(){
         $this->db->select('tbbarang.*, tbbrg.*');
         $this->db->from('tbbarang');
