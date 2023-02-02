@@ -55,5 +55,17 @@ class Export extends CI_Controller {
         header('Content-Disposition: attachment;filename="Data.xls"');
         $object_writer->save('php://output');
     }
+    
+    public function import_data($data){
+        $this->db->insert_batch('history', $data);
+        $history_id = $this->db->insert_id();
+        $this->db->select('history.*, tbbrg.*');
+        $this->db->from('history');
+        $this->db->join('tbbrg', 'history.kode_brg = tbbrg.kode_brg');
+        $this->db->where('history.id', $history_id);
+        $query = $this->db->get();
+        return $query->result();
+    }
+
 
 }
