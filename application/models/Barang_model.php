@@ -21,14 +21,14 @@ class Barang_model extends CI_Model {
         $this->db->update('tbbarang');
     }// tdiak bisa di pakai array . harus langsung di deskripsikan
     //20 januari 2023
-    public function insert_data($data){
-        $this->db->insert('tbbarang', $data);
+    public function insert_data($data2){
+        $this->db->insert('tbbarang', $data2);
     }
     public function insert_his($data){
         $this->db->insert('history', $data);
     }
     public function insert_history($data){
-        $this->db->set('ket', 'T');
+        //$this->db->set('status', 'N');
         $this->db->insert('history', $data);
     }//nonaktif
     public function get_total_qty(){
@@ -59,6 +59,15 @@ class Barang_model extends CI_Model {
         $this->db->from('tbbarang');
         //$this->db->join('tbstatus', 'tbbarang.id_status = tbstatus.id_status');
         $this->db->join('tbbrg', 'tbbarang.kode_brg = tbbrg.kode_brg');
+        $this->db->order_by('id ASC');
+        $query = $this->db->get();
+        return $query->result();
+    }
+    function allhis(){
+        $this->db->select('history.*, tbbrg.*');
+        $this->db->from('history');
+        //$this->db->join('tbstatus', 'tbbarang.id_status = tbstatus.id_status');
+        $this->db->join('tbbrg', 'history.kode_brg = tbbrg.kode_brg');
         $this->db->order_by('id ASC');
         $query = $this->db->get();
         return $query->result();
@@ -108,7 +117,7 @@ class Barang_model extends CI_Model {
     public function tampil(){    
         return $this->db->get('history')->result();
     }
-    public function kode(){
+    public function nodoc(){
         $this->db->select('RIGHT(history.ket,2) as ket', FALSE);
         $this->db->order_by('ket','DESC');    
         $this->db->limit(1);    
@@ -116,16 +125,25 @@ class Barang_model extends CI_Model {
         if($query->num_rows() <> 0){      
              //cek kode jika telah tersedia    
              $data = $query->row();      
-             $kode = intval($data->ket) + 1; 
+             $kodee = intval($data->ket) + 1; 
         }
         else{      
-             $kode = 1;  //cek jika kode belum terdapat pada table
+             $kodee = 1;  //cek jika kode belum terdapat pada table
         }
             $tgl=date('my'); 
-            $batas = str_pad($kode, 4, "0", STR_PAD_LEFT);    
+            $batas = str_pad($kodee, 4, "0", STR_PAD_LEFT);    
             $kodetampil = "PR"."-".$tgl."-".$batas;  //format kode
             return $kodetampil;  
        }
+
+
+       public function get($kode)
+    {
+        $this->db->where('kode', $kode);
+        $result = $this->db->get('history')->row();
+        return $result;
+    }
+
     public function tambah($data){
         $id_brg = $this-input-post('id_brg');
         $grid_pro = $this-input-post('grid_pro');

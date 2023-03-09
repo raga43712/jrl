@@ -47,10 +47,10 @@
             <div class="card mb-4">
                 <div class="card-body">
                     <div class="d-flex justify-content-between lh-condensed">
-                        <div class="d-flex">
+                        <!-- <div class="d-flex">
                             <p><a href="<?php echo site_url('admin') ?>" class="btn btn-success mr-2" data-toggle="modal" data-target="#tambahMasukan">
                                 <i class="fa fa-plus"></i> Pemasukan Barang</a></p>
-                        </div>
+                        </div> -->
                         <!-- <div>
                             <p><a href="#!" onclick="window.print()" class="btn btn-secondary">
                                     <i class="fa fa-print"></i> Cetak</a></p>
@@ -69,14 +69,15 @@
                                     <th class="text-center">Tinggi</th>
                                     <th class="text-center">Panjang</th>
                                     <th class="text-center">Qty</th>
-                                    <th class="text-center">Ket</th>
+                                    <th class="text-center">Deskripsi</th>
                                     <th width="50%" class="text-center">No Doc</th>
+                                    <th width="50%" class="text-center">Status</th>
                                     <!-- <th class="text-center">Status</th> -->
                                 </tr>
                             </thead>
                             <tbody>
                                 <?php $i = 1;
-                                foreach ($his as $data) { ?>
+                                foreach ($allhis as $data) { ?>
                                     <tr>
                                         <td class="text-center"><?php echo $i ?></td>
                                         <td><?php echo $data->tgl_pro ?></td>
@@ -85,9 +86,16 @@
                                         <td><?php echo $data->grid_pro ?></td>
                                         <td><?php echo $data->width_pro ?></td>
                                         <td><?php echo $data->length_pro ?></td>
-                                        <td><?php echo $data->total_akhir ?></td>
+                                        <td><?php echo $data->qty_pro ?></td>
+                                        <!-- <td><?php echo $data->total_akhir ?></td> -->
                                         <td><?php echo $data->desc_pro ?></td>
                                         <td><?php echo $data->ket ?></td>
+                                        <td class="text-center">
+                                            <?php if ($data->status == "P") { ?>
+                                                <span class="badge badge-pill badge-success"style="font-weight: unset;">Print</span> <?php }
+                                            if ($data->status == "N") { ?>
+                                                <span class="badge badge-pill badge-danger" style="font-weight: unset;">Belum Print</span><?php } ?>
+                                        </td>
                                         <!-- <td class="text-center">
                                             <?php if ($data->desc_status == "P") { ?>
                                                 <span class="badge badge-pill badge-success"style="font-weight: unset;">Print</span> <?php }
@@ -147,7 +155,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label class="col-form-label" for="Keterangan">No Doc</label>
-                                    <input type="text" class="form-control" name="ket" id="ket" value="<?= $kode; ?>">
+                                    <input type="text" class="form-control" name="ket" id="ket" value="<?= $nodoc; ?>">
                                 </div>
                                 <div class="form-group">
                                     <label class="col-form-label" for="keterangan">Keterangan</label>

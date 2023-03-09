@@ -69,7 +69,6 @@
                                     <th class="text-center">Panjang</th>
                                     <th class="text-center">Qty</th>
                                     <th class="text-center">Keterangan</th>
-                                    <th class="text-center">Status</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -84,13 +83,12 @@
                                         <td><?php echo $data->length_pro ?></td>
                                         <td><?php echo $data->qty_pro ?></td>
                                         <td><?php echo $data->desc_pro ?></td>
-                                        <td class="text-center">
-                                            <?php if ($data->desc_status == "P") { ?>
+                                        <!-- <td class="text-center">
+                                            <?php if ($data->status == "P") { ?>
                                                 <span class="badge badge-pill badge-success"style="font-weight: unset;">Print</span> <?php }
-                                            if ($data->desc_status == "T") { ?>
+                                            if ($data->status == "N") { ?>
                                                 <span class="badge badge-pill badge-danger" style="font-weight: unset;">Belum Print</span><?php } ?>
-                                        </td>
-                                        
+                                        </td> -->
                                     </tr>
                                 <?php $i++;
                                 } ?>
@@ -146,6 +144,10 @@
                                     <input type="number" class="form-control" name="qty_pro" id="qty_pro" placeholder="Contoh : 12" required="">
                                 </div>
                                 <div class="form-group">
+                                    <label class="col-form-label" for="Keterangan">No Doc</label>
+                                    <input type="text" class="form-control" name="ket" id="ket" value="<?= $nodoc; ?>">
+                                </div>
+                                <div class="form-group">
                                     <label class="col-form-label" for="keterangan">Keterangan</label>
                                     <textarea class="form-control" name="desc_pro" id="desc_pro" placeholder="Keterangan"></textarea>
                                 </div>
@@ -160,7 +162,9 @@
                 </div> <!-- modal-dialog -->
             </div> <!-- modal-fade -->
 
-            <!-- modal tambah user-->
+            
+
+            <!-- NON AKTIFF-->
             <!-- modal tambah user-->
             <!-- modal -->
             <div class="modal fade" id="tambahKeluaran" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">

@@ -19,6 +19,7 @@ class Barang extends CI_Controller{
 		$site 	= $this->konfigurasi_model->listing();
 		$barang = $this->barang_model->all();
 		$brg 	= $this->barang_model->brga();
+		$nodoc 	= $this->barang_model->nodoc();
 		//tambah model
 
 		$data = array(
@@ -26,6 +27,7 @@ class Barang extends CI_Controller{
 			'namasite'	=> $site['namaweb'],
 			'barang'	=> $barang,
 			'brg'		=> $brg,
+			'nodoc'		=> $nodoc,
 			//model list
 			'isi'		=> 'back/barang/list' 
 		);
@@ -47,12 +49,15 @@ class Barang extends CI_Controller{
 		if ($valid->run()) {
 			$i = $this->input;
 			$data = array(
+				'tgl_pro'		=>	date('Y-m-d'),
 				'kode_brg'		=>	$i->post('kode_brg'),
 				'grid_pro'		=>	$i->post('grid_pro'),
 				'width_pro'		=>	$i->post('width_pro'),
 				'length_pro'	=>	$i->post('length_pro'),
 				'qty_pro'		=>	$i->post('qty_pro'),
 				'desc_pro'		=>  $i->post('desc_pro'),
+				'ket'			=>  $i->post('ket'),
+				'status'		=>	'N',
 				'kode'			=>	$i->post('kode_brg') . $i->post('grid_pro') . $i->post('width_pro') . $i->post('length_pro')
 			);
 
@@ -64,9 +69,18 @@ class Barang extends CI_Controller{
                 if ($check > 0) {
                     $this->barang_model->update_data($data['kode'],$data['qty_pro']);
                 } else {
-                    $this->barang_model->insert_data($data);
+					$data2 = array(
+						'kode_brg'	=> $this->input->post('kode_brg'),
+						'grid_pro'		=>	$i->post('grid_pro'),
+						'width_pro'		=>	$i->post('width_pro'),
+						'length_pro'	=>	$i->post('length_pro'),
+						'qty_pro'		=>	$i->post('qty_pro'),
+						'desc_pro'		=>  $i->post('desc_pro'),
+						'kode'			=>	$i->post('kode_brg') . $i->post('grid_pro') . $i->post('width_pro') . $i->post('length_pro')
+					);
+                    $this->barang_model->insert_data($data2);
                 }
-			//$this->barang_model->insert_history($data);
+			$this->barang_model->insert_history($data);
 			$this->session->set_flashdata('sukses', 'Barang berhasil ditambah');
 			redirect(site_url('admin/barang'));
 		}
@@ -77,16 +91,18 @@ class Barang extends CI_Controller{
 		$brg 	= $this->barang_model->brga();
 		//$result = $this->barang_model->nom();
 		$tampil 	= $this->barang_model->tampil();
-		$kode 	= $this->barang_model->kode();
+		$nodoc 	= $this->barang_model->nodoc();
 		$qt		= $this->barang_model->get_total_qty();
+		$allhis	= $this->barang_model->allhis();
 
 		$data = array(
 			'title'		=> 'Data Barang Masuk',
 			'namasite'	=> $site['namaweb'],
 			'his'		=> $his,
 			'brg'		=> $brg,
-			'kode'		=> $kode,
+			'nodoc'		=> $nodoc,
 			'tampil'	=> $tampil,
+			'allhis'	=>	$allhis,
 			'qt'		=> $qt,
 			//model list
 			'isi'		=> 'back/history/list' 
@@ -117,8 +133,18 @@ class Barang extends CI_Controller{
 				'status'		=>	'P',
 				'kode'			=>	$i->post('kode_brg') . $i->post('grid_pro') . $i->post('width_pro') . $i->post('length_pro')
 			);
-			$this->barang_model->insert_his($data);
-			$this->session->set_flashdata('sukses', 'Data pemasukkan berhasil ditambahkan');
+			//fix
+			if(empty($i->post('qty_pro'))){
+                $data['qty_pro'] = 0;
+            }
+            $check = $this->barang_model->check_data($data['kode']);
+                if ($check > 0) {
+                    $this->barang_model->update_data($data['kode'],$data['qty_pro']);
+                } else {
+                    $this->barang_model->insert_data($data);
+                }
+			$this->barang_model->insert_history($data);
+			$this->session->set_flashdata('sukses', 'Barang berhasil ditambah');
 			redirect(site_url('admin/barang/riwayat'));
 		}
 	}
