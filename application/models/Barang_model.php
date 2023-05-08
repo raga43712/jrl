@@ -21,6 +21,11 @@ class Barang_model extends CI_Model {
         $this->db->update('tbbarang');
     }// tdiak bisa di pakai array . harus langsung di deskripsikan
     //20 januari 2023
+    public function update_datamin($kode, $qty_pro){
+        $this->db->set('qty_pro', 'qty_pro-'.$qty_pro, false);
+        $this->db->where('kode', $kode);
+        $this->db->update('tbbarang');
+    }
     public function insert_data($data2){
         $this->db->insert('tbbarang', $data2);
     }
@@ -137,10 +142,23 @@ class Barang_model extends CI_Model {
        }
 
 
-       public function get($kode)
+       public function get2($kode)
     {
         $this->db->where('kode', $kode);
         $result = $this->db->get('history')->row();
+        return $result;
+    }
+
+    public function detail($id)
+    {
+        $query = $this->db->get_where($this->table, array('CD_RESIDENT' => $id));
+        return $query->row();
+    }
+
+    public function get($id)
+    {
+        $this->db->where('id', $id);
+        $result = $this->db->get('tbbarang')->row();
         return $result;
     }
 

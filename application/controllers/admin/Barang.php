@@ -178,5 +178,85 @@ class Barang extends CI_Controller{
 		}
 	}
 
+	public function edit($id_user = null)
+    {
+        // if (!isset($id_user)) redirect('penduduk/pendatang');
+        // if ($id_user == 641) show_404();
+        $user = $this->mpenduduk->detail($id_user);
+        $groupMenu = $this->mpenduduk->menugcm('GRP_USR');
+        $status = $this->mpenduduk->menugcm('FLAG_AKTIF');
+        $site     = $this->konfigurasi_model->listing();
+			//edited
+		$site 	= $this->konfigurasi_model->listing();
+		$barang = $this->barang_model->all();
+		$brg 	= $this->barang_model->brga();
+		$nodoc 	= $this->barang_model->nodoc();
+        // Validasi
+        $valid = $this->form_validation;
+        $valid->set_rules(
+            'kode','kode','required',
+            array('required' => 'Nama Lengkap harus diisi')
+        );
+        $valid->set_rules(
+            'grid_pro','grid_pro ','required',
+            array('required'     => 'ktp  harus diisi'
+            )
+        );
+        $valid->set_rules(
+            'width_pro','width_pro','required',
+            array(
+                'required'     => 'Tanggal Lahir harus diisi'
+            )
+        );
+
+        $valid->set_rules(
+            'length_pro','length_pro','required',
+            array(
+                'required'     => 'Tanggal Join harus diisi'
+            )
+        );
+
+        if ($valid->run() === FALSE) {
+            // End validasi
+
+            $data = array(
+                'title'     => 'Input Data Pengurangan Barang',
+                'namasite'	=> $site['namaweb'],
+				'barang'	=> $barang,
+				'brg'		=> $brg,
+				'nodoc'		=> $nodoc,
+				//model list
+				'isi'		=> 'admin/barang/edit' 
+				);
+            $this->load->view('back/minus', $data);
+            // masuk database
+        } else {
+            $i = $this->input;
+            $data = array(
+                'tgl_pro'		=>	date('Y-m-d'),
+				'kode_brg'		=>	$i->post('kode_brg'),
+				'grid_pro'		=>	$i->post('grid_pro'),
+				'width_pro'		=>	$i->post('width_pro'),
+				'length_pro'	=>	$i->post('length_pro'),
+				'qty_pro'		=>	$i->post('qty_pro'),
+				'desc_pro'		=>  $i->post('desc_pro'),
+				'ket'			=>  $i->post('ket'),
+				'status'		=>	'N',
+				'kode'			=>	$i->post('kode_brg') . $i->post('grid_pro') . $i->post('width_pro') . $i->post('length_pro')
+            );
+			if(empty($i->post('qty_pro'))){
+                $data['qty_pro'] = 0;
+            }
+            $check = $this->barang_model->check_data($data['kode']);
+                if ($check > 0) {
+                    $this->barang_model->update_datamin($data['kode'],$data['qty_pro']);
+                }
+			$this->barang_model->insert_history($data);
+            $this->session->set_flashdata('sukses', 'Data Penduduk berhasil diubah');
+            redirect(site_url('penduduk/pendatang'));
+        }
+        // End masuk database
+    }
+
 
 } // end of all

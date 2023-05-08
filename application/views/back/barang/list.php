@@ -83,12 +83,10 @@
                                         <td><?php echo $data->length_pro ?></td>
                                         <td><?php echo $data->qty_pro ?></td>
                                         <td><?php echo $data->desc_pro ?></td>
-                                        <!-- <td class="text-center">
-                                            <?php if ($data->status == "P") { ?>
-                                                <span class="badge badge-pill badge-success"style="font-weight: unset;">Print</span> <?php }
-                                            if ($data->status == "N") { ?>
-                                                <span class="badge badge-pill badge-danger" style="font-weight: unset;">Belum Print</span><?php } ?>
-                                        </td> -->
+                                        <td class="text-center">
+                                        <a href="<?php echo site_url('admin/barang/edit/' . $data->kode) ?>" class="btn btn-secondary btn-sm mr-1"><i class="fa fa-edit"></i> Ubah</a>
+                                            <?php $hey = $data->id; ?>
+                                        </td>
                                     </tr>
                                 <?php $i++;
                                 } ?>
